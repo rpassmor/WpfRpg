@@ -21,6 +21,5 @@
         <Label Grid.Row="1" Grid.Column="1" Content="Game Data" Background="Beige"/>
         <Label Grid.Row="2" Grid.Column="0" Content="Inventory/Quests" Background="BurlyWood"/>
         <Label Grid.Row="2" Grid.Column="1" Content="Combat/Movement Controls" Background="Lavender"/>
-
     </Grid>
 </Window>
