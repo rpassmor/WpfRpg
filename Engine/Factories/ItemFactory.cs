@@ -23,13 +23,16 @@ namespace Engine.Factories
             _standardGameItems.Add(new GameItem(9005, "Spider fang", 1));
             _standardGameItems.Add(new GameItem(9006, "Spider silk", 2));
         }
-
         public static GameItem CreateGameItem(int itemTypeID)
         {
             GameItem standardItem = _standardGameItems.FirstOrDefault(item => item.ItemTypeID == itemTypeID); 
 
             if(standardItem != null)
             {
+                if (standardItem is Weapon)
+                {
+                    return (standardItem as Weapon).Clone();
+                }
                 return standardItem.Clone();
             }
             return null;
