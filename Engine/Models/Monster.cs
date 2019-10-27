@@ -35,7 +35,7 @@ namespace Engine.Models
             int rewardExeriencePoints, int rewardGold)
         {
             Name = name;
-            ImageName = string.Format("R:/AdventureGame/SOSCSRPG/Engine/Images/Monsters/{0}", imageName);
+            ImageName = $"R:/AdventureGame/SOSCSRPG/Engine/Images/Monsters/{imageName}";
             MaximumHitPoints = maximumHitPoints;
             HitPoints = hitPoints;
             MinimumDamage = minimumDamage;

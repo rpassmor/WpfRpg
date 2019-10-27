@@ -23,7 +23,6 @@ namespace Engine.Models
                 _name = value;
                 OnPropertyChanged(nameof(Name));
             }
-
         }
         public string CharacterClass
         {
@@ -33,7 +32,6 @@ namespace Engine.Models
                 _characterClass = value;
                 OnPropertyChanged(nameof(CharacterClass));
             }
-
         }
         public int HitPoints
         {
@@ -43,7 +41,6 @@ namespace Engine.Models
                 _hitPoints = value;
                 OnPropertyChanged(nameof(HitPoints));
             }
-
         }
         public int ExperiencePoints 
         { 
@@ -53,7 +50,6 @@ namespace Engine.Models
                 _experiencePoints = value;
                 OnPropertyChanged(nameof(ExperiencePoints));
             }
-        
         }
         public int Level
         {
@@ -63,7 +59,6 @@ namespace Engine.Models
                 _level = value;
                 OnPropertyChanged(nameof(Level));
             }
-
         }
         public int Gold
         {
@@ -91,6 +86,22 @@ namespace Engine.Models
         {
             Inventory.Add(item);
             OnPropertyChanged(nameof(Weapons));
+        }
+        public void RemoveItemFromInventory(GameItem item)
+        {
+            Inventory.Remove(item);
+            OnPropertyChanged(nameof(Weapons));
+        }
+        public bool HasTheseItems(List<ItemQuantity> items)
+        {
+            foreach (ItemQuantity item in items)
+            {  
+                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
     }
