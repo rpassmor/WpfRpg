@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Engine.Models
 {
-    class Monster : BaseNotificationClass
+    public class Monster : BaseNotificationClass
     {
         private int _hitPoints;
 
@@ -32,7 +32,7 @@ namespace Engine.Models
             int rewardExeriencePoints, int rewardGold)
         {
             Name = name;
-            ImageName = imageName;
+            ImageName = string.Format("R:/AdventureGame/SOSCSRPG/Engine/Images/Monsters/{0}", imageName);
             MaximumHitPoints = maximumHitPoints;
             HitPoints = hitPoints;
             RewardExperiencePoints = rewardExeriencePoints;
