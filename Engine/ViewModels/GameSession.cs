@@ -82,8 +82,14 @@ namespace Engine.ViewModels
             }
             CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));
             CurrentPlayer.LearnRecipe(RecipeFactory.RecipeById(1));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3001));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3002));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3003));
+
             CurrentWorld = WorldFactory.CreateWorld();
+
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
+
         }
 
         public void MoveNorth()
@@ -123,16 +129,11 @@ namespace Engine.ViewModels
 
                 if (questToComplete != null)
                 {
-                    if (CurrentPlayer.HasTheseItems(quest.ItemsToComplete))
+                    if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete))
                     {
                         // Remove the quest completion items from the player's inventory
-                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
-                        {
-                            for (int i = 0; i < itemQuantity.Quantity; i++)
-                            {
-                                CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
-                            }
-                        }
+                        CurrentPlayer.RemoveItemsFromInventory(quest.ItemsToComplete);
+
                         RaisedMessage("");
                         RaisedMessage($"You completed the '{quest.Name}' quest");
 
@@ -236,6 +237,10 @@ namespace Engine.ViewModels
         }
         public void AttackCurrentMonster()
         {
+            if (CurrentMonster == null)
+            {
+                return;
+            }
             if (CurrentPlayer.CurrentWeapon == null)
             {
                 RaisedMessage("You must select a weapon to attack with.");
@@ -291,7 +296,35 @@ namespace Engine.ViewModels
         }
         public void UserCurrentConsumable()
         {
-            CurrentPlayer.UseCurrentConsumable();
+            if (CurrentPlayer.CurrentConsumable != null)
+            {
+                CurrentPlayer.UseCurrentConsumable();
+            }
+        }
+        public void CraftItemUsing(Recipe recipe)
+        {
+            if (CurrentPlayer.HasAllTheseItems(recipe.Ingredients))
+            {
+                CurrentPlayer.RemoveItemsFromInventory(recipe.Ingredients);
+
+                foreach (ItemQuantity itemQuantity in recipe.OutputItems)
+                {
+                    for (int i = 0; i < itemQuantity.Quantity; i++)
+                    {
+                        GameItem outputItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
+                        CurrentPlayer.AddItemToInventory(outputItem);
+                        RaisedMessage($"You craft 1 {outputItem.Name}");
+                    }
+                }
+            }
+            else
+            {
+                RaisedMessage("You do not have the required ingredients:");
+                foreach (ItemQuantity itemQuantity in recipe.Ingredients)
+                {
+                    RaisedMessage($"  {itemQuantity.Quantity} {ItemFactory.ItemName(itemQuantity.ItemID)}");
+                }
+            }
         }
     }
 }
