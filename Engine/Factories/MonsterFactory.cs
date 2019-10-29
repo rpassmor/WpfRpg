@@ -34,6 +34,7 @@ namespace Engine.Factories
 
                     AddLootItem(giantSpider, 9005, 25);
                     AddLootItem(giantSpider, 9006, 75);
+                    AddLootItem(giantSpider, 1003, 10);
 
                     return giantSpider;
 

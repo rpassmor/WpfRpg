@@ -6,6 +6,7 @@ using Engine.Factories;
 using System.ComponentModel;
 using System.Linq;
 using Engine.EventArgs;
+using Engine.Actions;
 
 namespace Engine.ViewModels
 {
@@ -24,12 +25,14 @@ namespace Engine.ViewModels
             {
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
                 }
                 _currentPlayer = value;
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnActionPerformed += OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
                 }
@@ -216,7 +219,7 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasMonster));
             }
         }
-        public Weapon CurrentWeapon { get; set; }
+        // public GameItem CurrentWeapon { get; set; }
 
         public bool HasMonster => CurrentMonster != null;
 
@@ -231,24 +234,12 @@ namespace Engine.ViewModels
         }
         public void AttackCurrentMonster()
         {
-            if (CurrentWeapon == null)
+            if (CurrentPlayer.CurrentWeapon == null)
             {
-                RaisedMessage("You must select a weapon to attack.");
+                RaisedMessage("You must select a weapon to attack with.");
                 return;
             }
-            // Determine damage to monster
-            int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage);
-
-            if (damageToMonster == 0)
-            {
-                RaisedMessage($"You missed the {CurrentMonster.Name}.");
-            }
-            else
-            {
-                RaisedMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
-                CurrentMonster.TakeDamage(damageToMonster);
-            }
-
+            CurrentPlayer.UseCurrentWeaponOn(CurrentMonster);
             if (CurrentMonster.IsDead)
             {
                 // Get another monster to fight
@@ -256,16 +247,16 @@ namespace Engine.ViewModels
             }
             else
             {
-                // If monster is still alive, let the monster attack
+                // Let the monster attack
                 int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
 
                 if (damageToPlayer == 0)
                 {
-                    RaisedMessage($"The {CurrentMonster.Name} attacks, but misses you.");
+                    RaisedMessage($"{CurrentMonster.Name} attacks, but misses.");
                 }
                 else
                 {
-                    RaisedMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
+                    RaisedMessage($" The {CurrentMonster.Name} hit you for {damageToPlayer} damage.");
                     CurrentPlayer.TakeDamage(damageToPlayer);
                 }
             }
@@ -298,6 +289,10 @@ namespace Engine.ViewModels
         private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArg)
         {
             RaisedMessage($"You are now level {CurrentPlayer.Level}!");
+        }
+        private void OnCurrentPlayerPerformedAction(object sender, string result)
+        {
+            RaisedMessage(result);
         }
     }
 }
