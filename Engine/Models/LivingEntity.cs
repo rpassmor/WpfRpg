@@ -14,7 +14,26 @@ namespace Engine.Models
         private int _gold;
         private int _level;
         private GameItem _currentWeapon;
+        private GameItem _currentConsumable;
 
+
+        public GameItem CurrentConsumable
+        {
+            get { return _currentConsumable; }
+            set
+            {
+                if (_currentConsumable != null)
+                {
+                    _currentConsumable.Action.OnActionPerformed -= RaiseActionPerformedEvent;
+                }
+                _currentConsumable = value;
+                if (_currentConsumable != null)
+                {
+                    _currentConsumable.Action.OnActionPerformed += RaiseActionPerformedEvent;
+                }
+                OnPropertyChanged();
+            }
+        }
         public string Name
         {
             get { return _name; }
@@ -67,6 +86,8 @@ namespace Engine.Models
 
         public event EventHandler<string> OnActionPerformed;
         public event EventHandler OnKilled;
+        public List<GameItem> Consumables => Inventory.Where(i => i.Category == GameItem.ItemCategory.Consumable).ToList();
+        public bool HasConsumable => Consumables.Any();
 
         public GameItem CurrentWeapon
         {
@@ -88,6 +109,11 @@ namespace Engine.Models
         public void UseCurrentWeaponOn(LivingEntity target)
         {
             CurrentWeapon.PerformAction(this, target);
+        }
+        public void UseCurrentConsumable()
+        {
+            CurrentConsumable.PerformAction(this, this);
+            RemoveItemFromInventory(CurrentConsumable);
         }
         protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold, int level = 1)
         {
@@ -148,6 +174,8 @@ namespace Engine.Models
                 GroupedInventory.First(gi => gi.Item.ItemTypeID == item.ItemTypeID).Quantity++;
             }
             OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(Consumables));
+            OnPropertyChanged(nameof(HasConsumable));
         }
         public void RemoveItemFromInventory(GameItem item)
         {
@@ -167,6 +195,8 @@ namespace Engine.Models
                 }
             }
             OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(Consumables));
+            OnPropertyChanged(nameof(HasConsumable));
         }
         private void RaiseOnKilledEvent()
         {

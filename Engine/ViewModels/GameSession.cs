@@ -80,9 +80,8 @@ namespace Engine.ViewModels
             {
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
-
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));
             CurrentWorld = WorldFactory.CreateWorld();
-
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
         }
 
@@ -204,11 +203,13 @@ namespace Engine.ViewModels
             {
                 if (_currentMonster != null)
                 {
+                    _currentMonster.OnActionPerformed -= OnCurrentMonsterPerformedAction;
                     _currentMonster.OnKilled -= OnCurrentMonsterKilled;
                 }
                 _currentMonster = value;
                 if (_currentMonster != null)
                 {
+                    _currentMonster.OnActionPerformed += OnCurrentMonsterPerformedAction;
                     _currentMonster.OnKilled += OnCurrentMonsterKilled;
 
                     RaisedMessage("");
@@ -247,18 +248,7 @@ namespace Engine.ViewModels
             }
             else
             {
-                // Let the monster attack
-                int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
-
-                if (damageToPlayer == 0)
-                {
-                    RaisedMessage($"{CurrentMonster.Name} attacks, but misses.");
-                }
-                else
-                {
-                    RaisedMessage($" The {CurrentMonster.Name} hit you for {damageToPlayer} damage.");
-                    CurrentPlayer.TakeDamage(damageToPlayer);
-                }
+                CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
             }
         }
         private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs)
@@ -293,6 +283,14 @@ namespace Engine.ViewModels
         private void OnCurrentPlayerPerformedAction(object sender, string result)
         {
             RaisedMessage(result);
+        }
+        private void OnCurrentMonsterPerformedAction(object sender, string result)
+        {
+            RaisedMessage(result);
+        }
+        public void UserCurrentConsumable()
+        {
+            CurrentPlayer.UseCurrentConsumable();
         }
     }
 }
