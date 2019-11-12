@@ -16,6 +16,7 @@
     <LootItems>
       <LootItem ID="9005" Percentage="25"/>
       <LootItem ID="9006" Percentage="75"/>
+      <LootItem ID="1505" Percentage="5"/>
     </LootItems>
   </Monster>
 </Monsters>

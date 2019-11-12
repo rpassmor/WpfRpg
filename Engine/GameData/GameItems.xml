@@ -5,7 +5,10 @@
     <Weapon ID="1002" Name="Rusty sword" Price="5" MinimumDamage="1" MaximumDamage="3"/>
     <Weapon ID="1501" Name="Snake fang" Price="0" MinimumDamage="0" MaximumDamage="2"/>
     <Weapon ID="1502" Name="Rat claw" Price="0" MinimumDamage="0" MaximumDamage="2"/>
-    <Weapon ID="1503" Name="Spider fang" Price="0" MinimumDamage="0" MaximumDamage="4"/>
+    <Weapon ID="1503" Name="Iron Sword" Price="20" MinimumDamage="2" MaximumDamage="5"/>
+    <Weapon ID="1504" Name="Steel Sword" Price="100" MinimumDamage="5" MaximumDamage="9"/>
+    <Weapon ID="1505" Name="Gold Sword" Price="1000" MinimumDamage="15" MaximumDamage="18"/>
+    
   </Weapons>
   <HealingItems>
     <HealingItem ID="2001" Name="Granola bar" Price="5" HitPointsToHeal="2"/>

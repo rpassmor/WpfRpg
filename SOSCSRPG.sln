@@ -10,7 +10,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFUI", "WPFUI\WPFUI.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{EF78BF99-EFBB-4068-9823-0DA3ACFA3CBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEngine", "TestEngine\TestEngine.csproj", "{C263475F-C8AF-481C-AF92-DBC5B4512ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEngine", "TestEngine\TestEngine.csproj", "{C263475F-C8AF-481C-AF92-DBC5B4512ED8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AdventureRPG", "AdventureRPG\AdventureRPG.vdproj", "{6DF714C9-9FDB-4BE9-ACA4-50A1BBC7B67A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,8 @@ Global
 		{C263475F-C8AF-481C-AF92-DBC5B4512ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C263475F-C8AF-481C-AF92-DBC5B4512ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C263475F-C8AF-481C-AF92-DBC5B4512ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF714C9-9FDB-4BE9-ACA4-50A1BBC7B67A}.Debug|Any CPU.ActiveCfg = Debug
+		{6DF714C9-9FDB-4BE9-ACA4-50A1BBC7B67A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
